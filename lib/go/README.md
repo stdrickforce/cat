@@ -4,7 +4,7 @@ Gocat supports Go 1.8+
 
 Gocat is highly dependent on `ccat`. (through CGO)
 
-As we using the thread local to storage the transaction stack in `ccat`, which is neccessary to build message tree. It's hard for us to let it work approriately with goroutines. (Because a goroutine may run in different threads, due to the MPG model)
+As we using the thread local to storage the transaction stack in `ccat`, which is necessary to build a message tree. It's hard for us to let it work appropriately with goroutines. (Because a goroutine may run in different threads, due to the MPG model)
 
 So we don't support `message tree` in this version. Don't worry, we are still working on it and have some great ideas at the moment.
 
@@ -56,7 +56,7 @@ t := cat.NewTransaction(TTYPE, "test")
 defer t.Complete()
 ```
 
-We stongly recommend using `defer` keyword to make sure the transaction be completed, or it may cause problems. 
+We strongly recommend using `defer` keyword to make sure the transaction be completed, or it may cause problems.
 
 #### Transaction apis
 
@@ -68,7 +68,7 @@ We offered a list of APIs to modify the transaction.
 * SetTimestamp
 * Complete
 
-These APIs can be easily used like the following codes.
+These APIs can be easily used as the following codes.
 
 ```go
 t := cat.NewTransaction(TTYPE, "test")
@@ -80,7 +80,7 @@ t.SetTimestamp(time.Now().UnixNano()/1000/1000 - 20*1000)
 t.SetDurationInMillis(15 * 1000)
 ```
 
-There are something you have to know about the transaction apis:
+There is something you have to know about the transaction APIs:
 
 2. You can call `AddData` several times, the added data will be connected by `&`.
 3. `Timestamp` represents when the transaction has been created, set timestamp **will not** influence the duration.
@@ -138,11 +138,11 @@ cat.LogError(err, 'error-name')
 
 ### Metric
 
-We do aggregate every seconds.
+We do aggregate every second.
 
-For example, if you called count 3 times in one second (with the same name), we will just summarised the value of them and reported once to the server.
+For example, if you called count 3 times in one second (with the same name), we will just summarise the value of them and reported once to the server.
 
-In case of `duration`, we use `averaged` value instead of `summarised` value.
+In the case of `duration`, we use `averaged` value instead of `summarised` value.
 
 #### LogMetricForCount
 
