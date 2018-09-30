@@ -64,9 +64,9 @@ int main() {
 
 ## API list
 
-All the `cppcat` apis are in the `cat` namespace.
+All the `cppcat` APIs are in the `cat` namespace.
 
-### Common apis
+### Common APIs
 
 #### cat::init
 

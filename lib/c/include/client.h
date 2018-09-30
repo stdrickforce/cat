@@ -1,10 +1,6 @@
 #ifndef CAT_CLIENT_C_CLIENT_H
 #define CAT_CLIENT_C_CLIENT_H
 
-#include <string.h>
-#include <stdlib.h>
-#include <errno.h>
-
 /**
  * Constants
  */
