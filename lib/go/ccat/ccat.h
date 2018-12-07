@@ -31,4 +31,5 @@ void callLogEvent(
   e->addData(e, data);
   e->setTimestamp(e, timestampMs);
   e->complete(e);
+  return;
 }

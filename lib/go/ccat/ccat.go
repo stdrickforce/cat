@@ -9,7 +9,6 @@ package ccat
 */
 import "C"
 import (
-	"runtime"
 	"sync"
 	"unsafe"
 )
@@ -45,21 +44,7 @@ func InitWithConfig(domain string,  _config C.CatClientConfig) {
 }
 
 func Background() {
-	// We need running ccat functions on the same thread due to ccat is using a thread local.
-	runtime.LockOSThread()
-	defer runtime.UnlockOSThread()
 
-	wg.Add(1)
-	defer wg.Done()
-
-	for m := range ch {
-		switch m := m.(type) {
-		case *Transaction:
-			LogTransaction(m)
-		case *Event:
-			LogEvent(m)
-		}
-	}
 }
 
 func Shutdown() {
@@ -76,7 +61,12 @@ func ShutdownAndWait() {
 }
 
 func Send(m Messager) {
-	ch <- m
+	switch m := m.(type) {
+	case *Transaction:
+		LogTransaction(m)
+	case *Event:
+		LogEvent(m)
+	}
 }
 
 func LogTransaction(trans *Transaction) {

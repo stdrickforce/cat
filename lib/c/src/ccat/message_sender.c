@@ -122,9 +122,11 @@ int sendRootMessage(CatMessageTree *tree) {
         return 0;
     }
 
-    if (!tree->canDiscard) {
+    if (!g_config.enableSampling) {
         return mqOffer(tree);
-    } else if (g_config.enableSampling && hitSample()) {
+    } else if (!tree->canDiscard) {
+        return mqOffer(tree);
+    } else if (hitSample()) {
         return mqOffer(tree);
     } else {
         sendToAggregator(tree);
