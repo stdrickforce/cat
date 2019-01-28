@@ -32,7 +32,7 @@ classifiers = [
 
 setup(
     name='cat-sdk',
-    version='3.0.1',
+    version='3.0.2',
     author='Cat Team and Contributors',
     author_email='cat@dianping.com',
     url="https://github.com/dianping/cat/",
