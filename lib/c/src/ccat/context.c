@@ -19,7 +19,7 @@
 #include "context.h"
 
 #include "client_config.h"
-#include "message.h"
+#include "message/message.h"
 #include "message_manager.h"
 #include "functions.h"
 
@@ -56,7 +56,7 @@ void catContextAddTransChild(CatContext *ctx, CatMessage *message, CatTransactio
 }
 
 void catContextAdjustForTruncatedTrans(CatContext *ctx, CatTransaction *root) {
-    CatEvent *next = createCatEvent("TruncatedTransaction", "TotalDuration");
+    CatEvent *next = createEvent("TruncatedTransaction", "TotalDuration", catMessageManagerAdd);
     unsigned long long actualDurationUs = ctx->lastTruncateTransDurationUs + getCatTransactionDurationUs(root);
 
     next->addData(next, catsdsfromlonglong(actualDurationUs));

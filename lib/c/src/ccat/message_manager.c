@@ -26,6 +26,8 @@
 #include "lib/cat_clog.h"
 #include "lib/cat_network_util.h"
 
+#include "message/message.h"
+
 CatMessageManager g_cat_messageManager = {0}; //memset(&g_cat_messageManager, 0, sizeof(g_cat_messageManager))
 
 void catMessageManagerAdd(CatMessage *message) {
@@ -33,9 +35,13 @@ void catMessageManagerAdd(CatMessage *message) {
     ctx->addMessage(ctx, message);
 }
 
-void catMessageManagerEndTrans(CatTransaction *message) {
+void catMessageManagerEndTrans(CatMessage *message) {
+    if (!isCatTransaction(message)) {
+        return;
+    }
+
     CatContext *ctx = getCatContext();
-    ctx->endTrans(ctx, message);
+    ctx->endTrans(ctx, (CatTransaction*) message);
 
     if (isCATStaticStackEmpty(ctx->transactionStack)) {
         CatMessageTree *copiedTree = copyCatMessageTree(ctx->tree);

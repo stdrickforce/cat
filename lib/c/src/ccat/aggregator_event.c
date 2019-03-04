@@ -18,13 +18,15 @@
  */
 #include "aggregator_event.h"
 
-#include "message.h"
 #include "client_config.h"
 #include "functions.h"
+#include "context.h"
 
 #include <lib/cat_atomic.h>
 #include <lib/cat_ccmap.h>
 #include <lib/cat_thread.h>
+
+#include "message/message.h"
 
 typedef struct _CatEventData {
     sds m_type;

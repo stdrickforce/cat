@@ -18,7 +18,7 @@
  */
 #include "message_tree.h"
 
-#include "ccat/message.h"
+#include "message/message.h"
 
 CatMessageTree *copyCatMessageTree(CatMessageTree *pRootMsg) {
     CatMessageTree *pCopyMsg = (CatMessageTree *) malloc(sizeof(CatMessageTree));

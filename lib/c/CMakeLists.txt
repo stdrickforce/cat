@@ -59,6 +59,7 @@ set(
 
 aux_source_directory(src/lib LIBRARY_FILES)
 aux_source_directory(src/ccat SOURCE_FILES)
+aux_source_directory(src/message SOURCE_FILES)
 
 set(
         SOURCE_FILES

@@ -18,7 +18,7 @@
  */
 #include "encoder.h"
 
-#include "ccat/message.h"
+#include "message/message.h"
 
 #include "lib/cat_clog.h"
 

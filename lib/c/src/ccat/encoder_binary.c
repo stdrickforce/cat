@@ -18,7 +18,7 @@
  */
 #include "encoder.h"
 
-#include "ccat/message.h"
+#include "message/message.h"
 
 #define CAT_ENCODER_VERSION "NT1"
 
@@ -57,8 +57,8 @@ static inline void catBinaryTransactionStart(CatEncoder *encoder, CatTransaction
     CatTransactionInner *pTransInner = getInnerTrans(transaction);
     tmpBuf = catsdscatchar(tmpBuf, 't');
     tmpBuf = sdswritelong(tmpBuf, getCatMessageTimeStamp(transaction));
-    tmpBuf = sdswritestringwithnull(tmpBuf, pTransInner->message.type);
-    tmpBuf = sdswritestringwithnull(tmpBuf, pTransInner->message.name);
+    tmpBuf = sdswritestringwithnull(tmpBuf, pTransInner->inner.type);
+    tmpBuf = sdswritestringwithnull(tmpBuf, pTransInner->inner.name);
     *encoder->buf = tmpBuf;
 }
 
@@ -66,8 +66,8 @@ static inline void catBinaryTransactionEnd(CatEncoder *encoder, CatTransaction *
     sds tmpBuf = *encoder->buf;
     CatTransactionInner *pTransInner = getInnerTrans(transaction);
     tmpBuf = catsdscatchar(tmpBuf, 'T');
-    tmpBuf = sdswritestringwithnull(tmpBuf, pTransInner->message.status);
-    tmpBuf = sdswritestringwithnull(tmpBuf, pTransInner->message.data);
+    tmpBuf = sdswritestringwithnull(tmpBuf, pTransInner->inner.status);
+    tmpBuf = sdswritestringwithnull(tmpBuf, pTransInner->inner.data);
     tmpBuf = sdswritelong(tmpBuf, getCatTransactionDurationUs(transaction));
     *encoder->buf = tmpBuf;
 }

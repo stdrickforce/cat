@@ -19,13 +19,15 @@
 #include "aggregator_transaction.h"
 
 #include "client_config.h"
+#include "context.h"
 #include "functions.h"
-#include "message.h"
 
 #include <lib/cat_atomic.h>
 #include <lib/cat_ccmap.h>
 #include <lib/cat_clog.h>
 #include <lib/cat_thread.h>
+
+#include "message/message.h"
 
 typedef struct _CatTransData {
     sds m_type;

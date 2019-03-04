@@ -18,7 +18,7 @@
  */
 #include "aggregator.h"
 
-#include "message.h"
+#include "message/message.h"
 #include "aggregator_transaction.h"
 #include "aggregator_event.h"
 #include "aggregator_metric.h"

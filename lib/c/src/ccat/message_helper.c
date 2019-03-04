@@ -18,7 +18,7 @@
  */
 #include "message_helper.h"
 
-#include "ccat/message.h"
+#include "message/message.h"
 #include "ccat/message_id.h"
 #include "ccat/message_manager.h"
 
@@ -83,10 +83,10 @@ void truncateAndFlush(CatContext *context, unsigned long long timestampMs) {
     for (; i >= 0; --i) {
         CatTransaction *t = (CatTransaction *) getCATStaticQueueByIndex(pStack, i);
         CatTransactionInner *tInner = getInnerTrans(t);
-        tInner->message.timestampMs = timestampMs;
-        tInner->durationStart = GetTime64() * 1000 * 1000;
+        tInner->inner.timestampInMillis = timestampMs;
+        tInner->durationStartInNano = GetTime64() * 1000 * 1000;
     }
-    CatEvent *next = createCatEvent("RemoteCall", "Next");
+    CatEvent *next = createEvent("RemoteCall", "Next", catMessageManagerAdd);
 
     next->addData(next, childId);
     next->setStatus(next, CAT_SUCCESS);
@@ -115,7 +115,7 @@ void truncateAndFlush(CatContext *context, unsigned long long timestampMs) {
 
 void markAsNotCompleted(CatTransaction *pTrans) {
     CatTransactionInner *transInner = getInnerTrans(pTrans);
-    transInner->message.isComplete = 1;
+    transInner->inner.isCompleted = 1;
 }
 
 void validateTransaction(CatTransaction *pParentTrans, CatTransaction *pTrans) {
@@ -131,25 +131,5 @@ void validateTransaction(CatTransaction *pParentTrans, CatTransaction *pTrans) {
     if (!isCatMessageComplete((CatMessage *) pTrans)) {
         markAsNotCompleted(pTrans);
     }
-}
-
-int isCatTransaction(CatMessage *message) {
-    CatMessageInner *pInner = getInnerMsg(message);
-    return pInner->messageType.type == CatMessageType_Trans;
-}
-
-int isCatEvent(CatMessage *message) {
-    CatMessageInner *pInner = getInnerMsg(message);
-    return pInner->messageType.type == CatMessageType_Event;
-}
-
-int isCatMetric(CatMessage *message) {
-    CatMessageInner *pInner = getInnerMsg(message);
-    return pInner->messageType.type == CatMessageType_Metric;
-}
-
-int isCatHeartBeat(CatMessage *message) {
-    CatMessageInner *pInner = getInnerMsg(message);
-    return pInner->messageType.type == CatMessageType_HeartBeat;
 }
 

@@ -24,7 +24,7 @@
 
 #include "client_config.h"
 #include "context.h"
-#include "message.h"
+#include "message/message.h"
 #include "aggregator.h"
 #include "aggregator_metric.h"
 #include "message_id.h"
@@ -60,6 +60,8 @@ CatClientConfig DEFAULT_CCAT_CONFIG = {
         0,  // disable debug log
         0,  // disable auto initialize when forked
 };
+
+CatMetric* newMetric(const char* type, const char* name);
 
 void resetCatContext() {
     CatContext* ctx = getCatContext();
@@ -233,7 +235,7 @@ CatEvent *newEvent(const char *type, const char *name) {
     if (!isCatEnabled()) {
         return &g_cat_nullMsg;
     }
-    CatEvent *event = createCatEvent(type, name);
+    CatEvent *event = createEvent(type, name, catMessageManagerAdd);
     catChecktPtr(event);
     return event;
 }
@@ -242,7 +244,7 @@ CatMetric *newMetric(const char *type, const char *name) {
     if (!isCatEnabled()) {
         return &g_cat_nullMsg;
     }
-    CatMetric *metric = createCatMetric(type, name);
+    CatMetric *metric = createMetric(type, name, catMessageManagerAdd);
     catChecktPtr(metric);
     return metric;
 }
@@ -253,7 +255,7 @@ CatHeartBeat *newHeartBeat(const char *type, const char *name) {
     }
     getContextMessageTree()->canDiscard = 0;
 
-    CatHeartBeat *hb = createCatHeartBeat(type, name);
+    CatHeartBeat *hb = createHeartBeat(type, name, catMessageManagerAdd);
     catChecktPtr(hb);
     return hb;
 }
@@ -262,7 +264,7 @@ CatTransaction *newTransaction(const char *type, const char *name) {
     if (!isCatEnabled()) {
         return &g_cat_nullTrans;
     }
-    CatTransaction *trans = createCatTransaction(type, name);
+    CatTransaction *trans = createCatTransaction(type, name, catMessageManagerEndTrans);
     catChecktPtr(trans);
     if (trans == NULL) {
         return NULL;

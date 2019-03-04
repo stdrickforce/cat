@@ -33,7 +33,7 @@ typedef struct _CatMessageManager {
 
 void catMessageManagerAdd(CatMessage *message);
 
-void catMessageManagerEndTrans(CatTransaction *trans);
+void catMessageManagerEndTrans(CatMessage *message);
 
 void catMessageManagerFlush(CatMessageTree *tree);
 
